@@ -75,24 +75,24 @@ button:focus, input:focus {
     margin-top: 2%;
 }
 
-input {
+input, select {
     background-color: #165C73;
     flex: 1;
     border: none;
     font-family: 'Montserrat', sans-serif;
     color: #F0C17C;
     /*text-transform: uppercase;*/
-    height: 2vw;
+    height: 3vw;
     padding-left: 0.5vw;
 
 }
 
-label {
-
+select {
+    width: 20vw;
 }
 
 #list-container {
-    border: 3px solid blue;
+    /*border: 3px solid blue;*/
     margin: 0 auto;
     width: 80%;
     display: grid;
