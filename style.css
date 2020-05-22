@@ -100,8 +100,21 @@ select {
     grid-gap: 1em;
 }
 
+#Group-container{
+    margin: 0 auto;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1em;
+}
+
 .list-div {
     padding: 1em;
     background-color: #165C73;
 
+}
+
+.groupDiv{
+    padding: 1em;
+    background-color: #165C73;
 }
