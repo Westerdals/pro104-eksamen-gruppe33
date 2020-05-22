@@ -33,7 +33,8 @@ function generateButtons(isTask) {
         //btnPeople.style.color = "#165C73";
         //btnTask.style.color = "#F0C17C";
         smallBtnWrapper.innerHTML = '<button class="btn-small" id="btn-new-group">NEW GROUP</button><button class="btn-small" id="btn-new-person">NEW PERSON</button>';
-        
+        document.getElementById("btn-new-group").addEventListener("click", function() { groupForm("newList") });
+        document.getElementById("btn-new-person").addEventListener("click", function() { groupForm("newTask") });
     }
 }
 
@@ -49,6 +50,17 @@ function printForm(formType) {
             renderSelectListMenu();
         break;
     }
+}
+
+function groupForm(formtype){
+    switch(formtype){
+        case "newGroup":
+            formWrapper.innerHTML = '<form onsubmit="createList(event)"><div class="form-input-field"><label for="groupName">Group Name:</label><input name="groupNameInput" type="text"></div><div class="form-input-field"><label for="Groupdescription">Group Description:</label><input name="Groupinput" type="text"></div><div class="form-input-field"><button type="submit">ADD GROUP</button></div></form>';
+        break;
+
+        case "newPerson" :
+            formWrapper.innerHTML = '<form onsubmit="createList(event)"><div class="form-input-field"><label for="personName"> First Name:</label><input name="personNameInput" type="text"></div><div class="form-input-field"><label for="GroupMenu">Select group:</label><select name="Groupmenu" id="Groupmenu"></select></div><button type="submit">ADD PERSON</button></div></form>';
+        }
 }
 
 function renderTaskList() {
