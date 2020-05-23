@@ -1,39 +1,82 @@
+// Initializing variables
 
-/*var listName = document.getElementById("lName");
-var listDescription = document.getElementById("descript");
-var addList = document.getElementById("submit");*/
+// Buttons
+var formWrapper = document.getElementsByClassName("form-wrapper")[0];
+var groupWrapp = document.getElementsByClassName("group-wrapper")[0];
 
-var list = document.getElementsByClassName("newL")[0];
+//Initializing functions
 
-//Printing buttons for list
-function printForm(formType) {
-    switch(formType) {
-        case "newList":
-            list.innerHTML = '<form onsubmit="createList(event)"><div id="inputField"><label for="list-name">LIST NAME:</label><input name="list-name-input" type="text"></div><div id="inputField"><label for="list-description">LIST DESCRIPTION:</label><input name="list-description-input" type="text"></div><div id="inputField"><button type="submit">ADD LIST</button></div></form>';
-        break;
-    }
+//renderTaskList();
+
+
+// Functions
+
+
+function generateTask() {
+    const taskbuttons = document.getElementById("smallbtnTask");
+    taskbuttons.style.display = "block";
+}
+const taskInput = document.getElementById("taskForm");
+const listInput = document.getElementById("lists");
+
+function newlist(){
+    
+    listInput.style.display="block";
+    taskInput.style.display = "none";
 }
 
-function renderTaskList() {
-    const listArray = JSON.parse(window.localStorage.getItem("listArray")) || [];
-    const listContainer = document.getElementById("listContainer");
-    listContainer.innerHTML = "";
+function newTask(){
+    taskInput.style.display = "block";
+    listInput.style.display="none";
+}
+
+function createList(event){
+    event.preventDefault();
     
+    const listName = document.querySelector("[name = 'listName']").value;
+    const listdescripe = document.querySelector("[name = 'listD']").value;
+
+    const taskList = {listName, listdescripe};
+
+    console.log(taskList);
+
+    const listTask = [taskList];
+    window.localStorage.setItem("listTask", JSON.stringify(listTask));
+
+    event.target.reset();
+}
+
+/*function renderTaskList() {
+
+    const listArray = JSON.parse(window.localStorage.getItem("listArray")) || [];
+    const listContainer = document.getElementById("list-container");
+    listContainer.innerHTML = "";
 
     for(const listObj of listArray) {
         const listElement = document.createElement("div");
         listElement.className = "list-div";
-        listElement.innerText =  ` ${listName} + ${listDescription}`;
+        listElement.innerText = `${listObj.listName} --- ${listObj.listDescription}`;
         listContainer.appendChild(listElement);
     }
 }
 
-function addList() {
-    //event.preventDefault();
-    var list = document.getElementById("newL");
+function renderSelectListMenu() {
+    listMenu = document.getElementById("list-menu");
+    const listArray = JSON.parse(window.localStorage.getItem("listArray")) || [];
+
+    listMenu.innerHTML = "";
+    for(const listObj of listArray) {
+        listMenu.innerHTML += `<option id="${listObj.listName}">${listObj.listName}</option>`;
+    }
     
-    const listName = document.getElementById("list-name-input").value;
-    const listDescription = document.getElementById("list-description-input").value;
+}
+
+function createList(event) {
+    event.preventDefault();
+
+    const listName = document.querySelector("[name='list-name-input']").value;
+    const listDescription = document.querySelector("[name='list-description-input']").value;
+    
 
     const listObj = {listName, listDescription};
 
@@ -43,22 +86,23 @@ function addList() {
     listArray.push(listObj);
     window.localStorage.setItem("listArray", JSON.stringify(listArray));
 
-    list.style.display = "none";
-
     renderTaskList();
-    list.innerHTML = "";
+    formWrapper.innerHTML = "";
 }
 
+function createTask(event) {
+    event.preventDefault();
+
+    const taskText = document.querySelector("[name='task-text']").value;
+    const assignedList = document.querySelector("[name='list-menu']").value;
+
+    const taskObj = {taskText, assignedList};
+
+    const taskArray = JSON.parse(window.localStorage.getItem(taskArray)) || [];
+    taskArray.push(taskObj);
+    window.localStorage.setItem("taskArray", JSON.stringify(taskArray)); 
+}*/
 
 
-/*var list = document.getElementById("newL");
 
-var whatTask = document.getElementById("tasks");
-var button = document.getElementById("buttons").addEventListener('click', function(evt){
-    var buttonPushed = evt.target;
-    if(buttonPushed.id === 'newList'){
-        list.style.display = "block";
-    }else if(buttonPushed.id === 'newTask'){
-        list.style.display = "none";
-    }
-})*/
+
