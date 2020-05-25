@@ -23,7 +23,22 @@ btnPeople.addEventListener("click", function() { generateButtons(false) })
 
 
 
+
 // ********** Functions **********
+
+// Function stores an increment number to create unique IDs for objects
+function getIncrementNumber() {
+    if(!localStorage.getItem("incrementNumber")) {
+        localStorage.setItem("incrementNumber", "0");
+        return 0;
+    } else {
+        const incString = localStorage.getItem("incrementNumber");
+        const incInt = parseInt(incString) + 1;
+        localStorage.setItem("incrementNumber", incInt);
+        return incInt;
+    }
+}
+
 
 // Function to generate buttons for each section. If/else statement to determine which section
 function generateButtons(isTask) {
@@ -86,8 +101,7 @@ function createList(event) {
     const listName = document.querySelector("[name='list-name-input']").value;
     const listDescription = document.querySelector("[name='list-description-input']").value;
 
-    const idNumber = "";
-    const listId = "listId"  + listArray.length;
+    const listId = "listId"  + getIncrementNumber();
 
     const listObj = {listName, listDescription, listId};
 
@@ -121,8 +135,11 @@ function createTask(event) {
 
     const taskText = document.querySelector("[name='task-text']").value;
     const assignedList = document.querySelector("[name='list-menu']").value;
+    
+    // getIncrementNumber() is an ever-increasing number stored in local storage to make sure the IDs are unique. Function is used for every id generated, which means the IDs for tasks (for example) will not increase incrementally.
+    const taskId = "taskId" + getIncrementNumber();
 
-    const taskObj = {taskText, assignedList};
+    const taskObj = {taskText, assignedList, taskId};
 
     const taskArray = JSON.parse(window.localStorage.getItem("taskArray")) || [];
 
@@ -164,6 +181,10 @@ function renderTask() {
         const listElement = document.createElement("div");
         listElement.className = "list-div";
         listElement.id = listObj.listId;
+        listElement.style.drop
+
+        listElement.addEventListener("dragover", function() {onDragOver(event)});
+        listElement.addEventListener("drop", function() { taskDrop(event) });
         
         listElement.innerText = `${listObj.listName} `;
         // + ${listObj.listDescription}
@@ -215,15 +236,21 @@ function renderSelectGroupMenu() {
     }
 }
 
+// Render tasks inside lists (called from renderTask)
 function renderTasksInsideLists() {
     const taskArray = JSON.parse(window.localStorage.getItem("taskArray")) || [];
 
+    // Loop through every task object inside local storage and print them out to assigned list. Get the assigned list by id (taskObj.assignedList) and print inside through innerHTML. Give the div id=taskObj.id to make sure every task div is unique. Task variable (247) is initialized to send to drag handlers (dragStart).
     for(const taskObj of taskArray) {
-        document.getElementById(taskObj.assignedList).innerHTML += "<br>" + taskObj.taskText;
+        document.getElementById(taskObj.assignedList).innerHTML += `<div draggable="true" id="${taskObj.taskId}">${taskObj.taskText}</div>`;
+        
+        var task = document.getElementById(taskObj.taskId);
+        task.addEventListener("dragstart", dragStart(event, task.id));
     
     }
 }
 
+// Render people inside groups (called from renderPeople)
 function renderPeopleInsideGroups() {
     const personArray = JSON.parse(window.localStorage.getItem("personArray")) || [];
 
@@ -234,3 +261,29 @@ function renderPeopleInsideGroups() {
     }
 }
 
+// Handler for drag start
+function dragStart(event, divId) {
+    localStorage.setItem("dragged", divId);
+}
+
+// Handler for drag over
+function onDragOver(event) {
+    event.preventDefault();
+}
+
+// Function for being called when task is dropped to change taskObj.assignedList to list that is being hovered over
+function taskDrop(event) {
+    const divId = localStorage.getItem("dragged");
+
+    // Get taskArray from local storage. Loop through and if taskId matches divId (id of item being dragged), make taskObj.assignedList = event.target.id (list id). Then renderTask again to show changes.
+    const taskArray = JSON.parse(window.localStorage.getItem("taskArray"));
+    for(const taskObj of taskArray) {
+        if(taskObj.taskId === divId) {
+            taskObj.assignedList = event.target.id;
+            window.localStorage.setItem("taskArray", JSON.stringify(taskArray));
+            renderTask();
+        }
+    }
+    
+
+}
