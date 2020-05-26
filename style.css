@@ -48,6 +48,19 @@ button, label, .form-wrapper, div {
     color: #F0C17C;
 }
 
+.btn-person-to-task {
+    font-family: 'Montserrat', sans-serif;
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    color: #165C73;
+}
+
+.assigned-person {
+    color: #CB273A;
+}
+
 button:hover {
     color: #165C73;
 }
@@ -117,4 +130,11 @@ select {
 .groupDiv{
     padding: 1em;
     background-color: #165C73;
+}
+
+.list-element {
+    background-color: #F0C17C;
+    color: #165C73;
+    margin-top: 5%;
+    
 }
