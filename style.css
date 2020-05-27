@@ -9,6 +9,22 @@ body {
     /*border: 1px solid pink;*/
 }
 
+.trash-can-wrapper {
+    /*border: 3px solid blue;*/
+    display: inline-block;
+
+    width: 12vw;
+    height: 12vw;
+    margin-top: 2%;;
+    margin-right: 150px;
+}
+
+img {
+    max-width: 100%;
+
+    
+}
+
 .header-wrapper {
     font-size: 12vw;
     color: #F0C17C;
